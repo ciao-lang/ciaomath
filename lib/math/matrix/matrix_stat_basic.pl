@@ -1,6 +1,5 @@
-:- module(_, _, [assertions, library(math/math_clp), unittestdecls]).
+:- module(_, _, [assertions, library(math/math_clp), unittestdecls, datafacts]).
 
-:- use_module(engine(data_facts)).
 :- use_module(library(math/matrix/matrix_basic)).
 :- use_module(library(math/vector)).
 
