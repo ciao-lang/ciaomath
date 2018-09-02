@@ -1,6 +1,6 @@
 :- module(pollard_rho, [prime_factor/2], [assertions, isomodes, regtypes]).
 
-:- doc(title, "Pollard's rho Factorization").
+:- doc(title, "Pollard's rho factorization").
 :- doc(author, "Jose F. Morales (implementation)").
 
 :- doc(module, "Implementation of the

@@ -1,6 +1,6 @@
 :- module(stat, [], [assertions]).
 
-:- doc(title, "Statistical Utilities.").
+:- doc(title, "Statistical utilities").
 
 :- doc(author, "Edison Mera").
 

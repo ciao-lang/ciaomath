@@ -27,7 +27,7 @@
 :- use_module(library(lists)).
 :- use_module(library(sort), [sort/2]).
 
-:- doc(title, "Statistical Utilities.").
+:- doc(title, "Statistical utilities").
 
 :- doc(author, "Edison Mera").
 

@@ -1,7 +1,7 @@
 :- module(fermat, [prime_factor/2], [assertions, isomodes, regtypes]).
 %:- module(fermat, _, [assertions, isomodes, regtypes]).
 
-:- doc(title, "Fermat Factorization").
+:- doc(title, "Fermat factorization").
 :- doc(author, "Jose F. Morales (implementation)").
 
 :- doc(module, "Implementation of the
