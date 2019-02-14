@@ -177,8 +177,7 @@ variance(N, S1, S2, V) :-
 	V is (S2 - (S1*S1) /N) /N.
 
 :- regtype pair(P).
-pair(P) :-
-  P = (X,Y),
+pair((X,Y)) :-
 	num(X),
 	num(Y).
 
