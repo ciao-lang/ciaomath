@@ -67,8 +67,8 @@ mapvscale(P, V1, V2, E0, E) :- foldl(P, V1, V2, E0, E).
 :- test vector_norm_inf(L, S) : (L = []) => near(S, 0, 0) + not_fails
 # "Empty list have norm zero".
 
-:- pred vector_norm_inf(List, AbsMax) : list(number) * term =>
-	list(number) * number # "Unifies @var{AbsMax} with the
+:- pred vector_norm_inf(List, AbsMax) : list(num) * term =>
+	list(num) * num # "Unifies @var{AbsMax} with the
 	infinite norm, which is the maximum of the absolute value of
 	the numbers in the list @var{List}.".
 
@@ -81,9 +81,9 @@ max_abs_number(X, A0, A1) :- A1 .=. max(abs(X), A0).
 	=> succeeds((C = [C1, C2, C3], C1 .=. 4.0, C2 .=. 4.0, C3 .=. 5.0))
 	+ not_fails # "Test addition of vectors".
 
-:- true pred vector_addition(X, Y, Z) : list(number) * list(number) *
-	term => list(number) * list(number) * list(number) # "Unifies
-   @var{Z} with the sum of the vectors @var{X} and @var{Y}.".
+:-  pred vector_addition(X, Y, Z) : list(num) * list(num) *	term =>
+   list(num) * list(num) * list(num)
+ # "Unifies @var{Z} with the sum of the vectors @var{X} and @var{Y}.".
 
 vector_addition(X, Y, Z) :-
 	mapvector((_(A, B, C) :- C .=. A + B), X, Y, Z).
@@ -107,9 +107,9 @@ scalar_eq(X, Y) :- X .=. Y.
 :- test vector_sum(L, S) : (L = []) => (S = 0) + not_fails
 # "Empty list sums zero.".
 
-:- true pred vector_sum(List, Sum) : list(number) * term => list(number) *
-	number # "Unifies @var{Sum} with the total sum of the numbers in
-      the list @var{List}.".
+:- pred vector_sum(List, Sum) : list(num) * term => list(num) *	num
+    # "Unifies @var{Sum} with the total sum of the numbers
+      in the list @var{List}.".
 
 vector_sum(X, S) :- mapvscale((_(E, S0, S1) :- S1 .=. S0 + E), X, 0, S).
 
@@ -119,40 +119,40 @@ vector_sum(X, S) :- mapvscale((_(E, S0, S1) :- S1 .=. S0 + E), X, 0, S).
 :- test vector_square_sum(L, S) : (L = []) => succeeds(S .=. 0.0) + not_fails
 # "Empty list sums zero".
 
-:- true pred vector_square_sum(List, Sum2) : list(number) * term =>
-	list(number) * number # "Unifies @var{Sum2} with the total sum of
+:- pred vector_square_sum(List, Sum2) : list(num) * term =>
+	list(num) * num # "Unifies @var{Sum2} with the total sum of
    the square of the numbers in the list @var{List}.".
 
 vector_square_sum(Vector, SquareSum) :-
 	vector_multiply(Vector, Vector, SquareSum).
 
-:- true pred vector_multiply(Vector1, Vector2, Result) : list(number) *
-	list(number) * term => list(number) * list(number) * number #
+:- pred vector_multiply(Vector1, Vector2, Result)
+    : list(num) *	list(num) * term => list(num) * list(num) * num #
 "Unifies @var{Result} with the scalar product between the vectors
    @var{Vector1} and @var{Vector2}.".
 
 vector_multiply(V1, V2, S) :-
 	mapvscale((_(A, B, S0, S1) :- S1 .=. S0 + A * B), V1, V2, 0, S).
 
-:- true pred vector_constant_multiply(Vector, Scalar, Result) : number *
-	list(number) * term => number * list(number) * list(number) #
+:- pred vector_constant_multiply(Vector, Scalar, Result) : num *
+	list(num) * term => num * list(num) * list(num) #
 "Unifies @var{Result} with the scalar product between @var{Scalar}
    and @var{Vector}.".
 
 vector_constant_multiply(X, R, Y) :-
 	mapvector((_(A, B) :- B .=. A * R), X, Y).
 
-:- true pred vector_constant_division(Vector, Scalar, Result) :
-	list(number) * number * term => list(number) * number * list(number) #
+:- pred vector_constant_division(Vector, Scalar, Result) :
+	list(num) * num * term => list(num) * num * list(num) #
 "Unifies @var{Result} with the scalar product between
    1.0/@var{Scalar} and @var{Vector}.".
 
 vector_constant_division(X, R, Y) :-
 	mapvector((_(A, B) :- B .=. A / R), X, Y).
 
-:- true pred vector_substraction(X, Y, Z) : list(number) * list(number) *
-	term => list(number) * list(number) * list(number) # "Unifies
-   @var{Z} with the rest of the vectors @var{X} and @var{Y}.".
+:- pred vector_substraction(X, Y, Z) : list(num) * list(num) *	term
+    => list(num) * list(num) * list(num)
+ # "Unifies @var{Z} with the rest of the vectors @var{X} and @var{Y}.".
 
 vector_substraction(X, Y, Z) :-
 	mapvector((_(A, B, C) :- C .=. A - B), X, Y, Z).
@@ -163,12 +163,12 @@ vector_division(X, Y, Z) :-
 vector_sqrt(V, S) :-
 	mapvector((_(C, E) :- E .=. sqrt(C)), V, S).
 
-:- true pred vector_constant_multiply_addition(Vector, Scalar, Add,
-	    Result) : list(number) * number * list(number) * term => number *
-	list(number) * list(number) * list(number) # "Unifies @var{Result}
-   with the product between @var{Scalar} and @var{Vector}, plus
-   @var{Add}.  In other words, @var{Result} = @var{Scalar} *
-   @var{Vector} + @var{Add}.".
+:- pred vector_constant_multiply_addition(Vector, Scalar, Add, Result)
+    : list(num) * num * list(num) * term
+ => num *	list(num) * list(num) * list(num)
+ # "Unifies @var{Result} with the product between @var{Scalar} and @var{Vector},
+   plus @var{Add}. In other words, @var{Result} = @var{Scalar} * @var{Vector} +
+   @var{Add}.".
 
 vector_constant_multiply_addition(Vs, Scalar, As, Rs) :-
 	mapvector((_(V, A, R) :- R .=. Scalar * V + A), Vs, As, Rs).

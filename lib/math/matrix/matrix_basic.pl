@@ -49,10 +49,10 @@ matrix_substraction([X|Xs], [Y|Ys], [Z|Zs]) :-
 	vector_substraction(X, Y, Z),
 	matrix_substraction(Xs, Ys, Zs).
 
-:- true pred matrix_addition(A, B, C) : list(list(number)) *
-	list(list(number)) * term => list(list(number)) *
-	list(list(number)) * list(list(number)) # "Unifies @var{Z}
-	with the sum of the matrices @var{X} and @var{Y}.".
+:- pred matrix_addition(A, B, C)
+    : list(list(num)) * list(list(num)) * term
+ => list(list(num)) *	list(list(num)) * list(list(num))
+ # "Unifies @var{Z}	with the sum of the matrices @var{X} and @var{Y}.".
 
 matrix_addition([],     Y,      Y).
 matrix_addition([X|Xs], [Y|Ys], [Z|Zs]) :-
@@ -66,7 +66,6 @@ matrix_constant_multiply([],    _, []).
 matrix_constant_multiply([A|M], K, [B|R]) :-
 	vector_constant_multiply(A, K, B),
 	matrix_constant_multiply(M, K, R).
-
 
 :- test matrix_identity(N, I) : (N = 3)
 	=> (I == [[1, 0, 0], [0, 1, 0], [0, 0, 1]])
@@ -91,7 +90,7 @@ matrix_eq(A, B) :- maplist(vector_eq, A, B).
 	succeeds(matrix_eq(C, [[-0.6, -3.12], [0.8, 0.16], [0.0, -1.8]]))
 # "Product M3x3 and M1x3".
 
-:- true pred matrix_multiply_transpose(Matrix, Transpose, Result) :
+:- pred matrix_multiply_transpose(Matrix, Transpose, Result) :
 	list(list(term)) * list(list(term)) * term => list(list(term))
 	* list(list(term)) * list(list(term)) # "Unifies @var{Result}
 	with the matricial product between the matrices @var{Matrix}
@@ -107,9 +106,9 @@ matrix_vector_multiply([Row|Matrix], Vector, [Element|Result]) :-
 	vector_multiply(Row, Vector, Element),
 	matrix_vector_multiply(Matrix, Vector, Result).
 
-:- true pred matrix_multiply(Matrix1, Matrix2, Result) :
-	list(list(number)) * list(list(number)) * term =>
-	list(list(number)) * list(list(number)) * list(list(number)) #
+:- pred matrix_multiply(Matrix1, Matrix2, Result) :
+	list(list(num)) * list(list(num)) * term =>
+	list(list(num)) * list(list(num)) * list(list(num)) #
 "Unifies @var{Result} with the matricial product between the
 	matrices @var{Matrix1} and @var{Matrix2}.".
 
@@ -142,9 +141,9 @@ triangular_product_combination([Element|Vector], [Row|Matrix]) :-
 	+ fails
 # "Reverse call over non simetric matrix".
 
-:- true pred triangular_matrix(A, B) : list(list(number)) *
-	list(list(number)) => list(list(number)) * list(list(number)) #
-"Converts the triangular matrix @var{A} to the rectangular matrix
+:- pred triangular_matrix(A, B) : list(list(num)) * list(list(num))
+    => list(list(num)) * list(list(num))
+ #"Converts the triangular matrix @var{A} to the rectangular matrix
 @var{B}.  A triangular matrix is defined as:
 
    A = [[A11,A12,    ...,A1N],
