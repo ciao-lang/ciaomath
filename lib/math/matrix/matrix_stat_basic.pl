@@ -74,7 +74,7 @@ covariance(XXT, Cols, MRSS, Covariance) :-
 variance(Covariance, Variance) :-
 	matrix_diagonal(Covariance, Variance).
 
-:- true pred general_regression(Data, Results, Pattern, Variables,
+:- pred general_regression(Data, Results, Pattern, Variables,
 	    Coefficients, Residuals) : list * list * list * list * term * term
 	=>
 	list * list * list * list * list * list # "Generic linear regression.
