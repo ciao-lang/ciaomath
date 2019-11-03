@@ -18,7 +18,7 @@
 		vector_division/3,
 		vector_constant_multiply_addition/4
 	    ],
-	    [assertions, nativeprops, unittestdecls, hiord,
+	    [assertions, nativeprops, unittestdecls, hiord_old,
 		library(math/math_clp)]).
 
 :- doc(module, "Vectors").

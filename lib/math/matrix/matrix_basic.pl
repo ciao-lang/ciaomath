@@ -1,4 +1,4 @@
-:- module(matrix_basic, _, [assertions, unittestdecls, nativeprops,
+:- module(matrix_basic, _, [assertions, unittestdecls, nativeprops, hiord_old,
 		library(math/math_clp)]).
 
 :- use_module(library(lists)).
