@@ -1,25 +1,25 @@
 :- module(_,
-	    [
-		vector_norm_inf/2,
-		vector_multiply/3,
-		vector_constant_multiply/3,
-		vector_constant_division/3,
-		vector_eq/2,
-		vector_sum/2,
-		vector_square_sum/2,
-		vector_addition/3,
-		vector_substraction/3,
-		vector_multiply_components/3,
-		vector_divide_components/3,
-		vector_is_zero/1,
-		vector_sqrt/2,
-		vector_project/4,
-		vector_project_list/4,
-		vector_division/3,
-		vector_constant_multiply_addition/4
-	    ],
-	    [assertions, nativeprops, unittestdecls, hiord_old,
-		library(math/math_clp)]).
+        [
+            vector_norm_inf/2,
+            vector_multiply/3,
+            vector_constant_multiply/3,
+            vector_constant_division/3,
+            vector_eq/2,
+            vector_sum/2,
+            vector_square_sum/2,
+            vector_addition/3,
+            vector_substraction/3,
+            vector_multiply_components/3,
+            vector_divide_components/3,
+            vector_is_zero/1,
+            vector_sqrt/2,
+            vector_project/4,
+            vector_project_list/4,
+            vector_division/3,
+            vector_constant_multiply_addition/4
+        ],
+        [assertions, nativeprops, unittestdecls, hiord_old,
+            library(math/math_clp)]).
 
 :- doc(module, "Vectors").
 :- doc(author, "Edison Mera").
@@ -27,7 +27,7 @@
 :- load_test_package(library(math/math_clp)).
 
 :- use_module(library(hiordlib), [
-	maplist/2, maplist/3, maplist/4, foldl/4, foldl/5]).
+    maplist/2, maplist/3, maplist/4, foldl/4, foldl/5]).
 
 :- push_prolog_flag(multi_arity_warnings, off).
 
@@ -61,38 +61,38 @@ mapvscale(P, V1, V2, E0, E) :- foldl(P, V1, V2, E0, E).
 :- pop_prolog_flag(multi_arity_warnings).
 
 :- test vector_norm_inf(L, S) : (L = [1, -2.0, 1.5])
-	=> succeeds(S .=. 2) + not_fails
+    => succeeds(S .=. 2) + not_fails
 # "Norm of a 3 component vector".
 
 :- test vector_norm_inf(L, S) : (L = []) => near(S, 0, 0) + not_fails
 # "Empty list have norm zero".
 
 :- pred vector_norm_inf(List, AbsMax) : list(num) * term =>
-	list(num) * num # "Unifies @var{AbsMax} with the
-	infinite norm, which is the maximum of the absolute value of
-	the numbers in the list @var{List}.".
+    list(num) * num # "Unifies @var{AbsMax} with the
+    infinite norm, which is the maximum of the absolute value of
+    the numbers in the list @var{List}.".
 
 vector_norm_inf(X, A) :-
-	mapvscale(max_abs_number, X, 0.0, A).
+    mapvscale(max_abs_number, X, 0.0, A).
 
 max_abs_number(X, A0, A1) :- A1 .=. max(abs(X), A0).
 
 :- test vector_addition(A, B, C) : (A = [1, 2, 3], B = [3, 2, 2])
-	=> succeeds((C = [C1, C2, C3], C1 .=. 4.0, C2 .=. 4.0, C3 .=. 5.0))
-	+ not_fails # "Test addition of vectors".
+    => succeeds((C = [C1, C2, C3], C1 .=. 4.0, C2 .=. 4.0, C3 .=. 5.0))
+    + not_fails # "Test addition of vectors".
 
-:-  pred vector_addition(X, Y, Z) : list(num) * list(num) *	term =>
+:-  pred vector_addition(X, Y, Z) : list(num) * list(num) *     term =>
    list(num) * list(num) * list(num)
  # "Unifies @var{Z} with the sum of the vectors @var{X} and @var{Y}.".
 
 vector_addition(X, Y, Z) :-
-	mapvector((_(A, B, C) :- C .=. A + B), X, Y, Z).
+    mapvector((_(A, B, C) :- C .=. A + B), X, Y, Z).
 
 vector_multiply_components(X, Y, Z) :-
-	mapvector((_(A, B, C) :- C .=. A * B), X, Y, Z).
+    mapvector((_(A, B, C) :- C .=. A * B), X, Y, Z).
 
 vector_divide_components(X, Y, Z) :-
-	mapvector((_(A, B, C) :- C .=. A / B), X, Y, Z).
+    mapvector((_(A, B, C) :- C .=. A / B), X, Y, Z).
 
 vector_is_zero(Vector) :- mapvector(scalar_eq(0.0), Vector).
 
@@ -102,98 +102,98 @@ vector_eq(A, B) :- maplist(scalar_eq, A, B).
 scalar_eq(X, Y) :- X .=. Y.
 
 :- test vector_sum(L, S) : (L = [1, 2, 3.0, 7]) => succeeds(S .=. 13.0) +
-	not_fails # "Sum of 5 elements".
+    not_fails # "Sum of 5 elements".
 
 :- test vector_sum(L, S) : (L = []) => (S = 0) + not_fails
 # "Empty list sums zero.".
 
-:- pred vector_sum(List, Sum) : list(num) * term => list(num) *	num
+:- pred vector_sum(List, Sum) : list(num) * term => list(num) * num
     # "Unifies @var{Sum} with the total sum of the numbers
       in the list @var{List}.".
 
 vector_sum(X, S) :- mapvscale((_(E, S0, S1) :- S1 .=. S0 + E), X, 0, S).
 
 :- test vector_square_sum(L, S) : (L = [1, 2, 3.0, 7]) => succeeds(S .=. 63.0)
-	+ not_fails # "Square sum of 5 elements".
+    + not_fails # "Square sum of 5 elements".
 
 :- test vector_square_sum(L, S) : (L = []) => succeeds(S .=. 0.0) + not_fails
 # "Empty list sums zero".
 
 :- pred vector_square_sum(List, Sum2) : list(num) * term =>
-	list(num) * num # "Unifies @var{Sum2} with the total sum of
+    list(num) * num # "Unifies @var{Sum2} with the total sum of
    the square of the numbers in the list @var{List}.".
 
 vector_square_sum(Vector, SquareSum) :-
-	vector_multiply(Vector, Vector, SquareSum).
+    vector_multiply(Vector, Vector, SquareSum).
 
 :- pred vector_multiply(Vector1, Vector2, Result)
-    : list(num) *	list(num) * term => list(num) * list(num) * num #
+    : list(num) *       list(num) * term => list(num) * list(num) * num #
 "Unifies @var{Result} with the scalar product between the vectors
    @var{Vector1} and @var{Vector2}.".
 
 vector_multiply(V1, V2, S) :-
-	mapvscale((_(A, B, S0, S1) :- S1 .=. S0 + A * B), V1, V2, 0, S).
+    mapvscale((_(A, B, S0, S1) :- S1 .=. S0 + A * B), V1, V2, 0, S).
 
 :- pred vector_constant_multiply(Vector, Scalar, Result) : num *
-	list(num) * term => num * list(num) * list(num) #
+    list(num) * term => num * list(num) * list(num) #
 "Unifies @var{Result} with the scalar product between @var{Scalar}
    and @var{Vector}.".
 
 vector_constant_multiply(X, R, Y) :-
-	mapvector((_(A, B) :- B .=. A * R), X, Y).
+    mapvector((_(A, B) :- B .=. A * R), X, Y).
 
 :- pred vector_constant_division(Vector, Scalar, Result) :
-	list(num) * num * term => list(num) * num * list(num) #
+    list(num) * num * term => list(num) * num * list(num) #
 "Unifies @var{Result} with the scalar product between
    1.0/@var{Scalar} and @var{Vector}.".
 
 vector_constant_division(X, R, Y) :-
-	mapvector((_(A, B) :- B .=. A / R), X, Y).
+    mapvector((_(A, B) :- B .=. A / R), X, Y).
 
-:- pred vector_substraction(X, Y, Z) : list(num) * list(num) *	term
+:- pred vector_substraction(X, Y, Z) : list(num) * list(num) *  term
     => list(num) * list(num) * list(num)
  # "Unifies @var{Z} with the rest of the vectors @var{X} and @var{Y}.".
 
 vector_substraction(X, Y, Z) :-
-	mapvector((_(A, B, C) :- C .=. A - B), X, Y, Z).
+    mapvector((_(A, B, C) :- C .=. A - B), X, Y, Z).
 
 vector_division(X, Y, Z) :-
-	mapvector((_(A, B, C) :- C .=. A / B), X, Y, Z).
+    mapvector((_(A, B, C) :- C .=. A / B), X, Y, Z).
 
 vector_sqrt(V, S) :-
-	mapvector((_(C, E) :- E .=. sqrt(C)), V, S).
+    mapvector((_(C, E) :- E .=. sqrt(C)), V, S).
 
 :- pred vector_constant_multiply_addition(Vector, Scalar, Add, Result)
     : list(num) * num * list(num) * term
- => num *	list(num) * list(num) * list(num)
+ => num *       list(num) * list(num) * list(num)
  # "Unifies @var{Result} with the product between @var{Scalar} and @var{Vector},
    plus @var{Add}. In other words, @var{Result} = @var{Scalar} * @var{Vector} +
    @var{Add}.".
 
 vector_constant_multiply_addition(Vs, Scalar, As, Rs) :-
-	mapvector((_(V, A, R) :- R .=. Scalar * V + A), Vs, As, Rs).
+    mapvector((_(V, A, R) :- R .=. Scalar * V + A), Vs, As, Rs).
 
 :- test vector_project(A, B, C, D) :
-	(
-	    B = [a, b, c, d, e],
-	    C = [b, d, e],
-	    A = [aaa, bbb, ccc, ddd, eee]
-	) => (D == [bbb, ddd, eee]) + not_fails.
+    (
+        B = [a, b, c, d, e],
+        C = [b, d, e],
+        A = [aaa, bbb, ccc, ddd, eee]
+    ) => (D == [bbb, ddd, eee]) + not_fails.
 
 vector_project(Data, Base, Projection, Out) :-
-	mapvscale(( _(D, E, P0-Out0, P1-Out1) :-
-		vector_project_elem(D, E, P0, P1, Out0, Out1) ), Data, Base,
-	    Projection-Out, [] -[]).
+    mapvscale(( _(D, E, P0-Out0, P1-Out1) :-
+            vector_project_elem(D, E, P0, P1, Out0, Out1) ), Data, Base,
+        Projection-Out, [] -[]).
 
 vector_project_elem(Data, E, [E|Projection], Projection, [Data|Out], Out) :- !.
 vector_project_elem(_,    _, Projection,     Projection, Out,        Out).
 
 :- test vector_project_list(A, B, C, D) : (
-	    B = [a, b, c, d, e],
-	    C = [b, d, e],
-	    A = [[aa, bb, cc, dd, ee],
-		[aaa, bbb, ccc, ddd, eee]]) =>
-	(D == [[bb, dd, ee], [bbb, ddd, eee]]) + not_fails.
+        B = [a, b, c, d, e],
+        C = [b, d, e],
+        A = [[aa, bb, cc, dd, ee],
+            [aaa, bbb, ccc, ddd, eee]]) =>
+    (D == [[bb, dd, ee], [bbb, ddd, eee]]) + not_fails.
 
 vector_project_list(Data, Base, Projection, Out) :-
-	mapvector(vector_project(Base, Projection), Data, Out).
+    mapvector(vector_project(Base, Projection), Data, Out).

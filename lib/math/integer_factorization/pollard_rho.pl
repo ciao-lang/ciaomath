@@ -21,36 +21,36 @@
        @pred{factorize/3}").
 
 prime_factor(N, Prime) :-
-	factorize(N, Prime0, Rest),
-	( Rest = 1 ->
-	    Prime = Prime0
-	; ( Prime = Prime0
-	  ; prime_factor(Rest, Prime)
-	  )
-	).
+    factorize(N, Prime0, Rest),
+    ( Rest = 1 ->
+        Prime = Prime0
+    ; ( Prime = Prime0
+      ; prime_factor(Rest, Prime)
+      )
+    ).
 
 :- pred factorize(N, Prime, Rest) :: int * int * int # "Obtain a
    prime number @var{Prime} that divides @var{N} (exists @var{Rest} so
    that @var{Prime} * @var{Rest} = @var{N})".
 
 factorize(N, Prime, Rest) :-
-	% Initial values x(i) and x(2*i) for i = 0.
-	factorize_(N, 2, 2, Prime, Rest).
+    % Initial values x(i) and x(2*i) for i = 0.
+    factorize_(N, 2, 2, Prime, Rest).
 
 factorize_(N, X, Y, Prime, Rest) :-
-	% Find x(i+1) and x(2*(i+1))
-	f(X, N, X2),
-	f(Y, N, Y1), f(Y1, N, Y2),
-	Diff is X2 - Y2,
-	( Diff < 0 -> Diff2 is -Diff ; Diff2 = Diff ),
-        D is gcd(Diff2, N),
-	( D =\= 1 ->
-	    Prime = D,
-	    Rest is N // D
-	; factorize_(N, X2, Y2, Prime, Rest)
-	).
+    % Find x(i+1) and x(2*(i+1))
+    f(X, N, X2),
+    f(Y, N, Y1), f(Y1, N, Y2),
+    Diff is X2 - Y2,
+    ( Diff < 0 -> Diff2 is -Diff ; Diff2 = Diff ),
+    D is gcd(Diff2, N),
+    ( D =\= 1 ->
+        Prime = D,
+        Rest is N // D
+    ; factorize_(N, X2, Y2, Prime, Rest)
+    ).
 
 % A pseudo-random function modulo N
 f(X, N, R) :-
-	C = 3,
-	R is (X * X + C) mod N.
+    C = 3,
+    R is (X * X + C) mod N.

@@ -1,28 +1,28 @@
 :- module(stat_basic, [
-		lsumstat/3,
-		lwsumstat/3,
-		lsumstat_aux/5,
-		lsumstat/4,
-		lwsumstat/4,
-		lsumstat_aux/7,
-		laverage/2,
-		lmean/2,
-		lwmean/2,
-		lgeometric_mean/2,
-		lwgeometric_mean/2,
-		lvariance/2,
-		lwvariance/2,
-		variance/4,
-		lsumstat2/7,
-		lsumstat2_aux/13,
-		covariance/5,
-		lcovariance2/2,
-		regression/9,
-		lregression/4,
-		ldiameter/2,
-		% regtypes
-		pair/1
-	    ], [assertions, isomodes, regtypes]).
+            lsumstat/3,
+            lwsumstat/3,
+            lsumstat_aux/5,
+            lsumstat/4,
+            lwsumstat/4,
+            lsumstat_aux/7,
+            laverage/2,
+            lmean/2,
+            lwmean/2,
+            lgeometric_mean/2,
+            lwgeometric_mean/2,
+            lvariance/2,
+            lwvariance/2,
+            variance/4,
+            lsumstat2/7,
+            lsumstat2_aux/13,
+            covariance/5,
+            lcovariance2/2,
+            regression/9,
+            lregression/4,
+            ldiameter/2,
+            % regtypes
+            pair/1
+        ], [assertions, isomodes, regtypes]).
 
 :- use_module(library(lists)).
 :- use_module(library(sort), [sort/2]).
@@ -37,153 +37,153 @@
 :- push_prolog_flag(multi_arity_warnings, off).
 
 :- pred lsumstat(List, Number, Sum) : list(num) * term * term =>
-	list(num) * num * num # "Unifies @var{Number} with the
+    list(num) * num * num # "Unifies @var{Number} with the
    length of the list and @var{Sum} with the total sum of the numbers
    in the list @var{List}.".
 
 lsumstat(X, N, S) :-
-	lsumstat_aux(X, 0, 0, N, S).
+    lsumstat_aux(X, 0, 0, N, S).
 
 :- pred lsumstat_aux(List, Number0, Sum0, Number, Sum) : list(num)
-	* num * num * term * term => list(num) * num * num *
-	num * num # "Similar to @pred{lsumstat/3}, but takes
+    * num * num * term * term => list(num) * num * num *
+    num * num # "Similar to @pred{lsumstat/3}, but takes
    @var{Number0} and @var{Sum0} as the initial values of @var{Number}
    and @var{Sum}.".
 
 lsumstat_aux([],     N,  S,  N, S).
 lsumstat_aux([X|Xs], N0, S0, N, S) :-
-	N1 is N0+1,
-	S1 is S0+X,
-	lsumstat_aux(Xs, N1, S1, N, S).
+    N1 is N0+1,
+    S1 is S0+X,
+    lsumstat_aux(Xs, N1, S1, N, S).
 
 lwsumstat(X, N, S) :-
-	lwsumstat_aux(X, 0, 0, N, S).
+    lwsumstat_aux(X, 0, 0, N, S).
 
 lwsumstat_aux([],          N,  S,  N, S).
 lwsumstat_aux([(W, X)|Xs], N0, S0, N, S) :-
-	N1 is N0+W,
-	S1 is S0+W*X,
-	lwsumstat_aux(Xs, N1, S1, N, S).
+    N1 is N0+W,
+    S1 is S0+W*X,
+    lwsumstat_aux(Xs, N1, S1, N, S).
 
 :- pred lsumstat(List, Number, Sum1, Sum2) : list(num) * term *
-	term * term => list(num) * num * num * num # "Unifies
+    term * term => list(num) * num * num * num # "Unifies
    @var{Number} with the length of the list, @var{Sum1} with the total
    sum of the numbers in the list and @var{Sum2} with the total sum of
    the squarers of the numbers in the list @var{List} respectively.".
 
 lsumstat(X, N, S1, S2) :-
-	lsumstat_aux(X, 0, 0, 0, N, S1, S2).
+    lsumstat_aux(X, 0, 0, 0, N, S1, S2).
 
 :- pred lsumstat_aux(List, Number0, Sum10, Sum20, Number, Sum1, Sum2) :
-	list(num) * num * num * num * term * term * term =>
-	list(num) * num * num * num * num * num * num
+    list(num) * num * num * num * term * term * term =>
+    list(num) * num * num * num * num * num * num
 # "Similar to @pred{lsumstat/4}, but takes @var{Number0},
    @var{Sum10} and @var{Sum20} as the initial values of @var{Number},
    @var{Sum1} and @var{Sum2} respectively.".
 
 lsumstat_aux([],     N,  S1,  S2,  N, S1, S2).
 lsumstat_aux([X|Xs], N1, S11, S21, N, S1, S2) :-
-	N2 is N1+1,
-	S12 is S11+X,
-	S22 is S21+X*X,
-	lsumstat_aux(Xs, N2, S12, S22, N, S1, S2).
+    N2 is N1+1,
+    S12 is S11+X,
+    S22 is S21+X*X,
+    lsumstat_aux(Xs, N2, S12, S22, N, S1, S2).
 
 :- pred lwsumstat(List, Number, Sum1, Sum2) : list(pair) * term *
-	term * term => list(pair) * num * num * num # "Similar to
+    term * term => list(pair) * num * num * num # "Similar to
    lsumstat/4 for a list of weighted values.".
 
 lwsumstat(X, N, S1, S2) :-
-	lwsumstat_aux(X, 0, 0, 0, N, S1, S2).
+    lwsumstat_aux(X, 0, 0, 0, N, S1, S2).
 
 lwsumstat_aux([],          N,  S1,  S2,  N, S1, S2).
 lwsumstat_aux([(W, X)|Xs], N1, S11, S21, N, S1, S2) :-
-	N2 is N1+W,
-	S12 is S11+W*X,
-	S22 is S21+W*(X*X),
-	lwsumstat_aux(Xs, N2, S12, S22, N, S1, S2).
+    N2 is N1+W,
+    S12 is S11+W*X,
+    S22 is S21+W*(X*X),
+    lwsumstat_aux(Xs, N2, S12, S22, N, S1, S2).
 
 llog([],    []).
 llog([X|L], [Y|R]) :-
-	Y is log(X),
-	llog(L, R).
+    Y is log(X),
+    llog(L, R).
 
 llogw([],         []).
 llogw([(W, X)|L], [(W, Y)|R]) :-
-	Y is log(X),
-	llogw(L, R).
+    Y is log(X),
+    llogw(L, R).
 
 :- pop_prolog_flag(multi_arity_warnings).
 
 :- pred lmean(List, Mean) : list(num) * term =>
-	list(num) * num # "Unifies @var{Mean} with the mean of
+    list(num) * num # "Unifies @var{Mean} with the mean of
    the list @var{List}.".
 
 lmean(L, A) :-
-	lsumstat(L, N, S),
-	A is S/N.
+    lsumstat(L, N, S),
+    A is S/N.
 
 %this is for compatibility and must be deleted in the future
 laverage(L, A) :- lmean(L, A).
 
 
 :- pred lgeometric_mean(List, Mean) : list(num) * term =>
-	list(num) * num # "Unifies @var{Mean} with the geometric
+    list(num) * num # "Unifies @var{Mean} with the geometric
    mean of the list @var{List}.".
 
 lgeometric_mean(L, A) :-
-	llog(L, L1),
-	lsumstat(L1, N, S),
-	A is exp(S/N).
+    llog(L, L1),
+    lsumstat(L1, N, S),
+    A is exp(S/N).
 
 :- pred lwmean(List, Mean) : list(pair) * term =>
-	list(pair) * num # "Unifies @var{Mean} with the mean of
+    list(pair) * num # "Unifies @var{Mean} with the mean of
    the list @var{List}.".
 
 lwmean(L, A) :-
-	lwsumstat(L, N, S),
-	A is S/N.
+    lwsumstat(L, N, S),
+    A is S/N.
 
 :- pred lwgeometric_mean(List, Mean) : list(pair) * term =>
-	list(pair) * num # "Unifies @var{Mean} with the geometric
+    list(pair) * num # "Unifies @var{Mean} with the geometric
    mean of the weighted values @var{List}.".
 
 lwgeometric_mean(L, A) :-
-	llogw(L, L1),
-	lwsumstat(L1, N, S),
-	A is exp(S/N).
+    llogw(L, L1),
+    lwsumstat(L1, N, S),
+    A is exp(S/N).
 
 :- pred lvariance(List, Variance) : list(num) * term =>
-	list(num) * num # "Unifies @var{Variance} with the variance
+    list(num) * num # "Unifies @var{Variance} with the variance
    of the list of weighted values @var{List}.".
 
 lvariance(L, V) :-
-	lsumstat(L, N, S1, S2),
-	variance(N, S1, S2, V).
+    lsumstat(L, N, S1, S2),
+    variance(N, S1, S2, V).
 
 :- pred lwvariance(List, Variance) : list(pair) * term =>
-	list(pair) * num # "Unifies @var{Variance} with the variance of
+    list(pair) * num # "Unifies @var{Variance} with the variance of
    the list of weighted values @var{List}.".
 
 lwvariance(L, V) :-
-	lwsumstat(L, N, S1, S2),
-	variance(N, S1, S2, V).
+    lwsumstat(L, N, S1, S2),
+    variance(N, S1, S2, V).
 
 :- pred variance(N, Sum1, Sum2, Variance) : num * num * num *
-	term => num * num * num * num # "Unifies @var{Variance} with the
+    term => num * num * num * num # "Unifies @var{Variance} with the
    variance, being @var{N} the number of data, @var{Sum1} the sum of
    the data and @var{Sum2} the sum of the square of the data".
 
 variance(N, S1, S2, V) :-
-	V is (S2 - (S1*S1) /N) /N.
+    V is (S2 - (S1*S1) /N) /N.
 
 :- regtype pair(P).
 pair((X,Y)) :-
-	num(X),
-	num(Y).
+    num(X),
+    num(Y).
 
 :- pred lsumstat2(List, N, Sx, Sy, Sx2, Sxy, Sy2) : list(pair) * term *
-	term * term * term * term * term => list(pair) * num * num *
-	num * num * num * num # "Unifies N with the length, Sx
+    term * term * term * term * term => list(pair) * num * num *
+    num * num * num * num # "Unifies N with the length, Sx
    with the sum of the independent variable, Sy with the sum of the
    dependent variable, Sx2 with the sum of squares of the independent
    variable, Sxy with the sum of the product between the independent
@@ -191,54 +191,54 @@ pair((X,Y)) :-
    dependent variable.".
 
 lsumstat2(L, N, Sx, Sy, Sx2, Sxy, Sy2) :-
-	lsumstat2_aux(L, 0, 0, 0, 0, 0, 0, N, Sx, Sy, Sx2, Sxy, Sy2).
+    lsumstat2_aux(L, 0, 0, 0, 0, 0, 0, N, Sx, Sy, Sx2, Sxy, Sy2).
 
 :- pred lsumstat2_aux(List, N0, Sx0, Sy0, Sx20, Sxy0, Sy20, N,
-	    Sx, Sy, Sx2, Sxy, Sy2) : list(pair) * num * num * num *
-	num * num * num * term * term * term * term * term * term
-	=> list(pair) * num * num * num * num * num * num
-	* num * num * num * num * num * num # "Same as
+        Sx, Sy, Sx2, Sxy, Sy2) : list(pair) * num * num * num *
+    num * num * num * term * term * term * term * term * term
+    => list(pair) * num * num * num * num * num * num
+    * num * num * num * num * num * num # "Same as
    @pred{lsumstat/7} but taken initial values for the returned data.".
 
 lsumstat2_aux([], N, Sx, Sy, Sx2, Sxy, Sy2, N, Sx, Sy, Sx2, Sxy, Sy2).
 lsumstat2_aux([L|Ls], N1, Sx1, Sy1, Sx21, Sxy1, Sy21, N, Sx, Sy, Sx2, Sxy, Sy2) :-
-	(X, Y) =L,
-	N_2 is 1+N1,
-	Sx_2 is X+Sx1,
-	Sy_2 is Y+Sy1,
-	Sx2_2 is X*X+Sx21,
-	Sxy_2 is X*Y+Sxy1,
-	Sy2_2 is Y*Y+Sy21,
-	lsumstat2_aux(Ls, N_2, Sx_2, Sy_2, Sx2_2, Sxy_2, Sy2_2, N, Sx, Sy, Sx2,
-	    Sxy, Sy2).
+    (X, Y) =L,
+    N_2 is 1+N1,
+    Sx_2 is X+Sx1,
+    Sy_2 is Y+Sy1,
+    Sx2_2 is X*X+Sx21,
+    Sxy_2 is X*Y+Sxy1,
+    Sy2_2 is Y*Y+Sy21,
+    lsumstat2_aux(Ls, N_2, Sx_2, Sy_2, Sx2_2, Sxy_2, Sy2_2, N, Sx, Sy, Sx2,
+        Sxy, Sy2).
 
 :- pred covariance(N, Sx, Sy, Sxy, C) : num * num * num *
-	num * term => num * num * num * num * num #
-	"Unifies @var{C} with the covariance.".
+    num * term => num * num * num * num * num #
+    "Unifies @var{C} with the covariance.".
 
 covariance(N, Sx, Sy, Sxy, C) :-
-	C is (Sxy - (Sx*Sy) /N) /N.
+    C is (Sxy - (Sx*Sy) /N) /N.
 
-:- pred lcovariance2(List, C) : list(pair) * term => list(pair) *	num
-        # "Unifies @var{C} with the covariance of the pair list @var{L}.".
+:- pred lcovariance2(List, C) : list(pair) * term => list(pair) *       num
+    # "Unifies @var{C} with the covariance of the pair list @var{L}.".
 
 lcovariance2(L, C) :-
-	lsumstat2(L, Sx, Sy, _Sx2, Sxy, _Sy2, N),
-	covariance(N, Sx, Sy, Sxy, C).
+    lsumstat2(L, Sx, Sy, _Sx2, Sxy, _Sy2, N),
+    covariance(N, Sx, Sy, Sxy, C).
 
 :- pred regression(N, Sx, Sy, Sx2, Sxy, Sy2, B0, B1, R) : num *
-	num * num * num * num * num * term * term * term =>
-	num * num * num * num * num * num * num *	num * num
+    num * num * num * num * num * term * term * term =>
+    num * num * num * num * num * num * num *       num * num
  # "Unifies B0, B1 with the parameters of the linear
    regression, and R with the correlation rate.".
 
 regression(N, Sx, Sy, Sx2, Sxy, Sy2, B0, B1, R) :-
-	covariance(N, Sx, Sy, Sxy, C),
-	variance(N, Sx, Sx2, Vx),
-	B1 is C/Vx,
-	B0 is (Sy-B1*Sx) /N,
-	variance(N, Sy, Sy2, Vy),
-	R is C/ sqrt(Vx*Vy).
+    covariance(N, Sx, Sy, Sxy, C),
+    variance(N, Sx, Sx2, Vx),
+    B1 is C/Vx,
+    B0 is (Sy-B1*Sx) /N,
+    variance(N, Sy, Sy2, Vy),
+    R is C/ sqrt(Vx*Vy).
 
 :- pred lregression(L, B0, B1, R)
     : list(pair) * term * term * term => list(pair) * num * num * num
@@ -248,15 +248,15 @@ regression(N, Sx, Sy, Sx2, Sxy, Sy2, B0, B1, R) :-
    dependent variable Y.".
 
 lregression(L, B0, B1, R) :-
-	lsumstat2(L, N, Sx, Sy, Sx2, Sxy, Sy2),
-	regression(N, Sx, Sy, Sx2, Sxy, Sy2, B0, B1, R).
+    lsumstat2(L, N, Sx, Sy, Sx2, Sxy, Sy2),
+    regression(N, Sx, Sy, Sx2, Sxy, Sy2, B0, B1, R).
 
 :- pred ldiameter(+L, -D) # "Returns the diameter @var{D} of a set of
 points @var{L}, where the diameter is the greatest distance between
 any two points in the set".
 
 ldiameter(L, D) :-
-	sort(L, LS),
-	LS = [Sm|_T],
-	last(LS, Bg),
-	D is Bg - Sm.
+    sort(L, LS),
+    LS = [Sm|_T],
+    last(LS, Bg),
+    D is Bg - Sm.
