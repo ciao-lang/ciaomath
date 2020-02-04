@@ -18,7 +18,7 @@
             vector_division/3,
             vector_constant_multiply_addition/4
         ],
-        [assertions, nativeprops, unittestdecls, hiord_old,
+        [assertions, nativeprops, unittestdecls, hiord,
             library(math/math_clp)]).
 
 :- doc(module, "Vectors").
@@ -196,4 +196,7 @@ vector_project_elem(_,    _, Projection,     Projection, Out,        Out).
     (D == [[bb, dd, ee], [bbb, ddd, eee]]) + not_fails.
 
 vector_project_list(Data, Base, Projection, Out) :-
-    mapvector(vector_project(Base, Projection), Data, Out).
+    mapvector(my_vector_project(Base, Projection), Data, Out).
+
+my_vector_project(Base, Projection, Data, Out) :-
+    vector_project(Data, Base, Projection, Out).
