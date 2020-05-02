@@ -144,8 +144,8 @@ vector_constant_multiply(X, R, Y) :-
 
 :- pred vector_constant_division(Vector, Scalar, Result) :
     list(num) * num * term => list(num) * num * list(num) #
-"Unifies @var{Result} with the scalar product between
-   1.0/@var{Scalar} and @var{Vector}.".
+"Unifies @var{Result} with the scalar product between 1.0/
+   @var{Scalar} and @var{Vector}.".
 
 vector_constant_division(X, R, Y) :-
     mapvector((_(A, B) :- B .=. A / R), X, Y).
