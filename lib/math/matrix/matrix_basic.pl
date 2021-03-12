@@ -145,19 +145,22 @@ triangular_product_combination([Element|Vector], [Row|Matrix]) :-
     => list(list(num)) * list(list(num))
  #"Converts the triangular matrix @var{A} to the rectangular matrix
 @var{B}.  A triangular matrix is defined as:
-
+@begin{verbatim}
    A = [[A11,A12,    ...,A1N],
-        [A22,A23,...,A2N],
-                     ....
-                    [ANN]]
+            [A22,A23,...,A2N],
+                         ...
+                        [ANN]]
+@end{verbatim}
 
    And the respective rectangular matrix is:
 
+@begin{verbatim}
    B = [[A11,A12,    ...,A1N],
-    [A12,A22,A23,...,A2N],
-    [A13,A23,A33,...,A3N],
-                      ...
-    [A1N,A2N,A3N,...,ANN]]
+        [A12,A22,A23,...,A2N],
+        [A13,A23,A33,...,A3N],
+                 ...
+        [A1N,A2N,A3N,...,ANN]]
+@end{verbatim}
 ".
 
 triangular_matrix([],          []).
